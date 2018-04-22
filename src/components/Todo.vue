@@ -2,13 +2,14 @@
   <div>
     <header>
       <h1>{{ msg }}</h1>
-      <input type="text" placeholder="What needs to be done?" autofocus="autofocus" v-model="newTodo" @keyup.enter="addTodo">
+      <input type="text" class="add" placeholder="What needs to be done?" autofocus="autofocus" v-model="newTodo" @keyup.enter="addTodo">
     </header>
     <main>
       <section>
         <ul class="todo-list">
-          <li class="todo" v-for="todo in todos">
+          <li class="todo" v-for="todo in todos" :class="{completed: todo.completed}">
             <div class="view">
+              <input type="checkbox" v-model="todo.completed" class="toggle">
               <label>{{ todo.name }}</label>
             </div>
           </li>
@@ -55,7 +56,7 @@ h1{
     margin: 0;
     padding: 0;
 }
-input {
+.add {
   position: relative;
   width: 40%;
   min-width: 300px;
@@ -66,19 +67,19 @@ input {
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
-input::-webkit-input-placeholder {
+input.add::-webkit-input-placeholder {
   font-style: italic;
   font-weight: 300;
   color: #e6e6e6;
 }
 
-input::-moz-placeholder {
+input.add::-moz-placeholder {
   font-style: italic;
   font-weight: 300;
   color: #e6e6e6;
 }
 
-input::input-placeholder {
+input.add::input-placeholder {
   font-style: italic;
   font-weight: 300;
   color: #e6e6e6;
@@ -109,5 +110,30 @@ main {
   display: block;
   line-height: 1.2;
   transition: color 0.4s;
+}
+.todo-list li.completed label {
+  color: #d9d9d9;
+  text-decoration: line-through;
+}
+.todo-list li .toggle {
+  text-align: center;
+  width: 40px;
+  height: auto;
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  margin: auto 0;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.todo-list li .toggle:after {
+  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
+}
+.todo-list li .toggle:checked:after {
+  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
+}
+input[type="checkbox"] {
+    outline: none;
 }
 </style>
