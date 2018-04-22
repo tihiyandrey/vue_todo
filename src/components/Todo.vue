@@ -2,14 +2,14 @@
   <div>
     <header>
       <h1>{{ msg }}</h1>
-      <input type="text" placeholder="What needs to be done?" autofocus="autofocus">
+      <input type="text" placeholder="What needs to be done?" autofocus="autofocus" v-model="newTodo" @keyup.enter="addTodo">
     </header>
     <main>
       <section>
         <ul class="todo-list">
-          <li class="todo">
+          <li class="todo" v-for="todo in todos">
             <div class="view">
-              <label>first</label>
+              <label>{{ todo.name }}</label>
             </div>
           </li>
         </ul>
@@ -22,7 +22,21 @@
 export default {
   data () {
     return {
-      msg: 'todos'
+      msg: 'todos',
+      todos: [{
+        name: 'test 123',
+        completed: false
+      }],
+      newTodo: ''
+    }
+  },
+  methods: {
+    addTodo () {
+      this.todos.push({
+        completed: false,
+        name: this.newTodo
+      })
+      this.newTodo = ''
     }
   }
 }
@@ -80,6 +94,7 @@ main {
   margin: 0;
   padding: 0;
   list-style: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 .todo-list li {
   position: relative;
