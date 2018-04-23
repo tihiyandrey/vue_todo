@@ -7,16 +7,19 @@
     <main>
       <section>
         <ul class="todo-list">
-          <li class="todo" v-for="todo in todos" :class="{completed: todo.completed}">
+          <li class="todo" v-for="todo in todos" :class="{complet: todo.completed}">
             <div class="view">
               <input type="checkbox" v-model="todo.completed" class="toggle">
               <label>{{ todo.name }}</label>
-              <button class="destroy" @click.prevent="deleteTodo(todo)"></button>
+              <button class="delete" @click.prevent="deleteTodo(todo)"></button>
             </div>
           </li>
         </ul>
       </section>
     </main>
+    <footer v-show="todos.length > 0">
+    	<span class="todo-counter"><strong>{{ counter }}</strong> <span v-if='counter == 1'>item</span><span v-else>items</span> left</span>
+    </footer>
   </div>
 </template>
 
@@ -25,10 +28,7 @@ export default {
   data () {
     return {
       msg: 'todos',
-      todos: [{
-        name: 'test 123',
-        completed: false
-      }],
+      todos: [],
       newTodo: ''
     }
   },
@@ -43,6 +43,11 @@ export default {
     deleteTodo (todo) {
     	this.todos = this.todos.filter(i => i !== todo)
     }
+  }, 
+  computed: {
+  	counter () {
+  		return this.todos.filter(todo => !todo.completed).length
+  	}
   }
 }
 </script>
@@ -88,6 +93,7 @@ input.add::input-placeholder {
   font-weight: 300;
   color: #e6e6e6;
 }
+input {outline:none;}
 main {
   width: 40%;
   margin: auto;
@@ -115,7 +121,7 @@ main {
   line-height: 1.2;
   transition: color 0.4s;
 }
-.todo-list li.completed label {
+.todo-list li.complet label {
   color: #d9d9d9;
   text-decoration: line-through;
 }
@@ -140,7 +146,7 @@ main {
 button, input[type="checkbox"] {
     outline: none;
 }
-.todo-list li .destroy {
+.todo-list li .delete {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -157,15 +163,51 @@ button, input[type="checkbox"] {
 	border: none;
 }
 
-.todo-list li .destroy:hover {
+.todo-list li .delete:hover {
 	color: #af5b5e;
 }
 
-.todo-list li .destroy:after {
+.todo-list li .delete:after {
 	content: '×';
 }
 
-.todo-list li:hover .destroy {
+.todo-list li:hover .delete {
 	display: block;
+}
+footer {
+	color: #777;
+	background-color: #fff;
+	padding: 10px 15px;
+	height: 40px;
+	text-align: center;
+	border-top: 1px solid #e6e6e6;
+	width: 40%;
+    box-sizing: border-box;
+    margin: auto;
+    position: relative;
+}
+
+footer:before {
+	content: '';
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 50px;
+	overflow: hidden;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+	            0 8px 0 -3px #f6f6f6,
+	            0 9px 1px -3px rgba(0, 0, 0, 0.2),
+	            0 16px 0 -6px #f6f6f6,
+	            0 17px 2px -6px rgba(0, 0, 0, 0.2);
+}
+
+.todo-counter {
+	float: left;
+	text-align: left;
+}
+
+.todo-counter strong {
+	font-weight: 300;
 }
 </style>
