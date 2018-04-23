@@ -11,6 +11,7 @@
             <div class="view">
               <input type="checkbox" v-model="todo.completed" class="toggle">
               <label>{{ todo.name }}</label>
+              <button class="destroy" @click.prevent="deleteTodo(todo)"></button>
             </div>
           </li>
         </ul>
@@ -38,6 +39,9 @@ export default {
         name: this.newTodo
       })
       this.newTodo = ''
+    },
+    deleteTodo (todo) {
+    	this.todos = this.todos.filter(i => i !== todo)
     }
   }
 }
@@ -133,7 +137,35 @@ main {
 .todo-list li .toggle:checked:after {
   content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
-input[type="checkbox"] {
+button, input[type="checkbox"] {
     outline: none;
+}
+.todo-list li .destroy {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 30px;
+	color: #cc9a9a;
+	margin-bottom: 11px;
+	transition: color 0.2s ease-out;
+	background: none;
+	border: none;
+}
+
+.todo-list li .destroy:hover {
+	color: #af5b5e;
+}
+
+.todo-list li .destroy:after {
+	content: '×';
+}
+
+.todo-list li:hover .destroy {
+	display: block;
 }
 </style>
