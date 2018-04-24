@@ -7,7 +7,7 @@
     <main>
       <section>
         <ul class="todo-list">
-          <li class="todo" v-for="todo in todos" :class="{complet: todo.completed}">
+          <li class="todo" v-for="todo in filterTodo" :class="{complet: todo.completed}">
             <div class="view">
               <input type="checkbox" v-model="todo.completed" class="toggle">
               <label>{{ todo.name }}</label>
@@ -19,6 +19,11 @@
     </main>
     <footer v-show="todos.length > 0">
     	<span class="todo-counter"><strong>{{ counter }}</strong> <span v-if='counter == 1'>item</span><span v-else>items</span> left</span>
+      <ul class="filter">
+        <li><a href="#" :class="{select: filter == 'all'}" @click.prevent="filter = 'all'">All</a></li>
+        <li><a href="#" :class="{select: filter == 'active'}" @click.prevent="filter = 'active'">Active</a></li>
+        <li><a href="#" :class="{select: filter == 'completed'}" @click.prevent="filter = 'completed'">Completed</a></li>
+      </ul>
     </footer>
   </div>
 </template>
@@ -29,7 +34,8 @@ export default {
     return {
       msg: 'todos',
       todos: [],
-      newTodo: ''
+      newTodo: '',
+      filter: 'all'
     }
   },
   methods: {
@@ -47,7 +53,15 @@ export default {
   computed: {
   	counter () {
   		return this.todos.filter(todo => !todo.completed).length
-  	}
+  	},
+    filterTodo () {
+      if (this.filter === 'active') {
+         return this.todos.filter(todo => !todo.completed)
+      } else if (this.filter === 'completed') {
+        return this.todos.filter(todo => todo.completed)
+      }
+      return this.todos
+    }
   }
 }
 </script>
@@ -209,5 +223,35 @@ footer:before {
 
 .todo-counter strong {
 	font-weight: 300;
+}
+.filter {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+}
+
+.filter li {
+  display: inline;
+}
+
+.filter li a {
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.filter li a.select,
+.filter li a:hover {
+  border-color: rgba(175, 47, 47, 0.1);
+}
+
+.filter li a.select {
+  border-color: rgba(175, 47, 47, 0.2);
 }
 </style>
