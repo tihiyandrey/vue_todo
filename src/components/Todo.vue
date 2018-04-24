@@ -6,6 +6,7 @@
     </header>
     <main>
       <section>
+        <input type="checkbox" class="toggle-all" v-show="todos.length > 0" v-model="allCompleted">
         <ul class="todo-list">
           <li class="todo" v-for="todo in filterTodo" :class="{complet: todo.completed}">
             <div class="view">
@@ -24,6 +25,7 @@
         <li><a href="#" :class="{select: filter == 'active'}" @click.prevent="filter = 'active'">Active</a></li>
         <li><a href="#" :class="{select: filter == 'completed'}" @click.prevent="filter = 'completed'">Completed</a></li>
       </ul>
+      <button class="clear-completed" v-show="allDone" @click.prevent="allDelete">Clear completed</button>
     </footer>
   </div>
 </template>
@@ -35,7 +37,7 @@ export default {
       msg: 'todos',
       todos: [],
       newTodo: '',
-      filter: 'all'
+      filter: 'all',
     }
   },
   methods: {
@@ -48,11 +50,17 @@ export default {
     },
     deleteTodo (todo) {
       this.todos = this.todos.filter(i => i !== todo)
+    },
+    allDelete (todo) {
+      this.todos = this.todos.filter(todo => !todo.completed)
     }
   }, 
   computed: {
     counter () {
       return this.todos.filter(todo => !todo.completed).length
+    },
+    allDone () {
+      return this.todos.filter(todo => todo.completed).length
     },
     filterTodo () {
       if (this.filter === 'active') {
@@ -61,6 +69,16 @@ export default {
         return this.todos.filter(todo => todo.completed)
       }
       return this.todos
+    },
+    allCompleted: {
+      get () {
+        return this.counter === 0
+      },
+      set (value) {        
+        this.todos.forEach(todo => {
+          todo.completed = value
+        })
+      }
     }
   }
 }
@@ -114,6 +132,41 @@ main {
   background: #fff;
   position: relative;
   border-top: 1px solid #e6e6e6;
+}
+.toggle-all {
+  position: absolute;
+  top: -55px;
+  left: -12px;
+  width: 60px;
+  height: 34px;
+  text-align: center;
+  border: none;
+}
+
+.toggle-all:before {
+  content: '❯';
+  font-size: 22px;
+  color: #e6e6e6;
+  padding: 10px 27px 10px 27px;
+}
+
+.toggle-all:checked:before {
+  color: #737373;
+}
+.toggle-all,
+.todo-list li .toggle {
+  background: none;
+}
+
+.todo-list li .toggle {
+  height: 40px;
+}
+
+.toggle-all {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -webkit-appearance: none;
+  appearance: none;
 }
 .todo-list {
   margin: 0;
@@ -253,5 +306,22 @@ footer:before {
 
 .filter li a.select {
   border-color: rgba(175, 47, 47, 0.2);
+}
+button {
+  background: none;
+  border: none;
+}
+.clear-completed, html .clear-completed:active {
+  float: right;
+  position: relative;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  color: inherit;
+}
+
+.clear-completed:hover {
+  text-decoration: underline;
 }
 </style>
