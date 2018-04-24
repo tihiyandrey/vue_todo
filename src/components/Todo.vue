@@ -18,7 +18,7 @@
       </section>
     </main>
     <footer v-show="todos.length > 0">
-    	<span class="todo-counter"><strong>{{ counter }}</strong> <span v-if='counter == 1'>item</span><span v-else>items</span> left</span>
+      <span class="todo-counter"><strong>{{ counter }}</strong> <span v-if='counter == 1'>item</span><span v-else>items</span> left</span>
       <ul class="filter">
         <li><a href="#" :class="{select: filter == 'all'}" @click.prevent="filter = 'all'">All</a></li>
         <li><a href="#" :class="{select: filter == 'active'}" @click.prevent="filter = 'active'">Active</a></li>
@@ -47,13 +47,13 @@ export default {
       this.newTodo = ''
     },
     deleteTodo (todo) {
-    	this.todos = this.todos.filter(i => i !== todo)
+      this.todos = this.todos.filter(i => i !== todo)
     }
   }, 
   computed: {
-  	counter () {
-  		return this.todos.filter(todo => !todo.completed).length
-  	},
+    counter () {
+      return this.todos.filter(todo => !todo.completed).length
+    },
     filterTodo () {
       if (this.filter === 'active') {
          return this.todos.filter(todo => !todo.completed)
@@ -161,68 +161,68 @@ button, input[type="checkbox"] {
     outline: none;
 }
 .todo-list li .delete {
-	display: none;
-	position: absolute;
-	top: 0;
-	right: 10px;
-	bottom: 0;
-	width: 40px;
-	height: 40px;
-	margin: auto 0;
-	font-size: 30px;
-	color: #cc9a9a;
-	margin-bottom: 11px;
-	transition: color 0.2s ease-out;
-	background: none;
-	border: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  margin: auto 0;
+  font-size: 30px;
+  color: #cc9a9a;
+  margin-bottom: 11px;
+  transition: color 0.2s ease-out;
+  background: none;
+  border: none;
 }
 
 .todo-list li .delete:hover {
-	color: #af5b5e;
+  color: #af5b5e;
 }
 
 .todo-list li .delete:after {
-	content: '×';
+  content: '×';
 }
 
 .todo-list li:hover .delete {
-	display: block;
+  display: block;
 }
 footer {
-	color: #777;
-	background-color: #fff;
-	padding: 10px 15px;
-	height: 40px;
-	text-align: center;
-	border-top: 1px solid #e6e6e6;
-	width: 40%;
+  color: #777;
+  background-color: #fff;
+  padding: 10px 15px;
+  height: 40px;
+  text-align: center;
+  border-top: 1px solid #e6e6e6;
+  width: 40%;
     box-sizing: border-box;
     margin: auto;
     position: relative;
 }
 
 footer:before {
-	content: '';
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	height: 50px;
-	overflow: hidden;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-	            0 8px 0 -3px #f6f6f6,
-	            0 9px 1px -3px rgba(0, 0, 0, 0.2),
-	            0 16px 0 -6px #f6f6f6,
-	            0 17px 2px -6px rgba(0, 0, 0, 0.2);
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+              0 8px 0 -3px #f6f6f6,
+              0 9px 1px -3px rgba(0, 0, 0, 0.2),
+              0 16px 0 -6px #f6f6f6,
+              0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
 .todo-counter {
-	float: left;
-	text-align: left;
+  float: left;
+  text-align: left;
 }
 
 .todo-counter strong {
-	font-weight: 300;
+  font-weight: 300;
 }
 .filter {
   margin: 0;
